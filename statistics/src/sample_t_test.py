@@ -22,7 +22,16 @@ if __name__ == '__main__':
             d.draw_graph(data, "test", "x", "y", tight_layout=True, mode="unpaired-ttest")
 
         elif args[1] == "paired-ttest":
-            # followed this website for sample: http://kogolab.chillout.jp/elearn/hamburger/chap5/sec1.html
-            data = {'HamburgerA':  [90, 75, 75, 75, 80, 65, 75, 80],
-                    'HamburgerB' : [95, 80, 80, 80, 75, 75, 80, 85]}
-            d.draw_graph(data, "test", "x", "y", tight_layout=True)
+            # # followed this website for sample: http://kogolab.chillout.jp/elearn/hamburger/chap5/sec1.html
+            # data = {'HamburgerA':  [90, 75, 75, 75, 80, 65, 75, 80],
+            #         'HamburgerB' : [95, 80, 80, 80, 75, 75, 80, 85]}
+
+            # # children
+            data = {'Talking to the robot': [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+                    'Touching the robot':   [0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1]}
+            d.draw_graph(data, "The number of children \nwho spontaneously interacted with the robot", "Action Type", "Number", tight_layout=True)
+
+            # adult
+            # data = {'Talking to the robot': [1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0],
+            #         'Touching the robot':   [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0]}
+            # d.draw_graph(data, "The number of adults \nwho spontaneously interacted with the robot", "Action Type", "Number", tight_layout=True)

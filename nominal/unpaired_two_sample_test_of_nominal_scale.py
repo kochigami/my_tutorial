@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import numpy as np
-from nominal.chi_squared_test import ChiSquaredTest
-from nominal.fisher_test import FisherTest
+from scipy.stats import chi2_contingency
+import scipy.stats as stats
+from scipy.stats.contingency import expected_freq
 
 class UnpairedTwoSampleTestOfNominalScale:
     def test(self, data):
@@ -29,45 +29,21 @@ class UnpairedTwoSampleTestOfNominalScale:
                |_ sum_column 
 
             """
-            # calculate n
-            n = sum(data[(data.keys())[0]]) + sum(data[(data.keys())[1]])
-
-            sum_row = []
-            sum_column = []
-
-            # calculate sum_column
-            for i in range(len(data[(data.keys())[0]])):
-                tmp = 0.0
-                for j in data.keys():
-                    tmp += data[j][i]
-                sum_column.append(tmp)
-
-            # calculate sum_row
-            for i in data.keys():
-                sum_row.append(sum(data[i]))
-
-            # calculate expected data
-            data_exp = []
-            for i in range(len(data[(data.keys())[0]])):
-                for j in range(len(data.keys())):
-                    data_exp.append(sum_row[j] * sum_column[i] / float(n))
-
+            data_exp = expected_freq([data[(data.keys())[0]], data[(data.keys())[1]]])
+            
             # select the way of calculation based on the minimum expected data (fisher's test or chi-square test)
             """
             fisher test is used in a certain condition (Cochran's rule); 
             see http://aoki2.si.gunma-u.ac.jp/lecture/Cross/warning.html and
                 http://drmagician.exblog.jp/22086293/
             """
-            if min(data_exp) < 5: 
+            if min(min(data_exp[0]), min(data_exp[1])) < 5: 
                 # use fisher's test
-                # followd this link: http://aoki2.si.gunma-u.ac.jp/lecture/Cross/Fisher.html
-                fisher_test = FisherTest()
-                p = fisher_test.test(data)
+                oddsratio, p = stats.fisher_exact([data[(data.keys())[0]], data[(data.keys())[1]]])
                 return p
             else:
-                # use chi-square test
-                chi_squared_test = ChiSquaredTest()
-                p = chi_squared_test.test(data)
+                # use chi-square test                
+                chi2, p, dof, expected = chi2_contingency([data[(data.keys())[0]], data[(data.keys())[1]]])
                 return p
                 
 if __name__ == '__main__':
